@@ -7,34 +7,41 @@ import requests
 import pandas
 
 
-def write_professors_to_file():
-    
+# Returns data about each instructor
+def get_instructor_data():
     # get json data from Petr Portal
     url = "https://api.peterportal.org/rest/v0/instructors/all"
     response = requests.get(url)
     json = response.json()
 
     # place all names into a list
-    all_names = list()
+    data = list()
     for instructor in json:
-        name = instructor["name"].split(" ")
+        row = []
+        row.append(instructor["shortened_name"])
+        row.append(instructor["name"])
+        row.append(instructor["ucinetid"])
+        row.append(instructor["department"])
 
-        first_initial = name[0][0]
-        last_name = name[-1]
+        data.append(row)
 
-        all_names.append((last_name + ", " + first_initial + "." + "\n"))
+    data.sort()
 
-
-    all_names.sort()
-
-    # write sorted names to instructors.txt
-    with open("backend/petr_portal/instructors.txt", "x") as instructor_file:
-        for name in all_names:
-            instructor_file.write(name)
+    return data
 
 
-        
+# Uses Pandas to write instructor data to csv
+def write_instructor_data_to_csv():
+    data = get_instructor_data()
+    columns = ["shortened_name", "name", "ucinetid", "department"]
+
+    # create pandas DataFrame
+    df = pandas.DataFrame(data, columns=columns)
+
+
+    df.to_csv("data/instructor_data.csv", index=False)
+
 
 
 if __name__ == "__main__":
-    pass
+    write_instructor_data_to_csv()

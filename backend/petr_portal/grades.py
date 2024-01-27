@@ -8,7 +8,7 @@ import pandas
 
 # Returns GPA of each grade
 def get_avereage_gpa(course: str, instructor: str) -> float:
-    # creating DataFrame from grades.csv
+    # creating DataFrame from grade_data.csv
     df = pandas.read_csv("data/grade_data.csv")
     mask = (df["course_id"] == course) & (df["instructor"] == instructor)
     result = df.loc[mask]

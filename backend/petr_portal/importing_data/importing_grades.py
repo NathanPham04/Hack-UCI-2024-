@@ -35,7 +35,7 @@ def _get_all_grade_data() -> None:
 
 def _get_grade_data(year: str) -> None:
 
-    # creating DataFrame from grades.csv
+    # creating DataFrame from grade_data.csv
     df = pandas.read_csv("data/grade_data.csv")
 
     # get json data from Petr Portal

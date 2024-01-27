@@ -27,7 +27,12 @@ def create_app(test_config=None):
     # Home Page
     @app.route('/')
     def home():
-        return render_template('index.html')
+        # Days of the week
+        days = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri']
+
+        # Weeks in the calendar
+        hours = range(6, 22)
+        return render_template('index.html', days=days, hours=hours)
 
     return app
 

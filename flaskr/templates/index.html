@@ -9,5 +9,28 @@
     <nav class="navBar">
         <h1>Welcome to your new AI driven class planner!</h1>
     </nav>
+    <div class="calendar">
+        <h2>Your Weekly Schedule</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    {% for day in days %}
+                        <th>{{ day }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for hour in hours %}
+                    <tr>
+                        <td>{{hour % 12 + 1}}</td>
+                        {% for day in days %}
+                            <td>{{ day }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

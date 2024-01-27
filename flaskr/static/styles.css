@@ -1,4 +1,29 @@
 .navBar {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 60%;
 }

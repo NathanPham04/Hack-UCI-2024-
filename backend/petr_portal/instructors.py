@@ -4,6 +4,7 @@
 
 # pip install requests
 import requests
+import pandas
 
 
 def write_professors_to_file():

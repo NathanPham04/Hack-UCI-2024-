@@ -1,19 +1,11 @@
-# professors.py
+# importing_data.py
 # 
-# Creates a list of all UCI instructor names from Petr Portal API
+# Importing UCI instructors, courses from Petr Portal API
 
-# pip install requests
 import requests
 import pandas
 
-# Creates a .csv file with the given data
-def _write_data_to_csv(data, columns, file_name):
-    # create pandas DataFrame
-    df = pandas.DataFrame(data, columns=columns)
-
-    # create new csv files
-    df.to_csv(("data/" + file_name), index=False)
-
+from create_csv import write_data_to_csv
 
 # Returns data about each instructor
 def _get_instructor_data():
@@ -42,7 +34,7 @@ def _write_instructor_data_to_csv():
     columns = ["shortened_name", "name", "ucinetid", "department"]
     data = _get_instructor_data()
 
-    _write_data_to_csv(data, columns, "instructor_data.csv")
+    write_data_to_csv(data, columns, "instructor_data.csv")
 
 
 
@@ -63,10 +55,7 @@ def _write_course_data_to_csv():
 
     columns = [column for column in json[0]]
 
-    _write_data_to_csv(data, columns, "course_data.csv")
-
-# TODO
-# def 
+    write_data_to_csv(data, columns, "course_data.csv")
 
 
 

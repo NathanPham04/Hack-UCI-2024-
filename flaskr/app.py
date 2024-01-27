@@ -1,6 +1,6 @@
 import os
+from flask import Flask, render_template
 
-from flask import Flask
 
 
 def create_app(test_config=None):
@@ -27,7 +27,7 @@ def create_app(test_config=None):
     # Home Page
     @app.route('/')
     def home():
-        return '<h1>Home Page</h1>'
+        return render_template('index.html')
 
     return app
 

@@ -24,10 +24,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
+    # Home Page
     @app.route('/')
-    def hello():
-        return '<h1>Title</h1>'
+    def home():
+        return '<h1>Home Page</h1>'
 
     return app
 

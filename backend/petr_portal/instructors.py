@@ -7,7 +7,7 @@ import requests
 import pandas
 
 # Creates a .csv file with the given data
-def write_data_to_csv(data, columns, file_name):
+def _write_data_to_csv(data, columns, file_name):
     # create pandas DataFrame
     df = pandas.DataFrame(data, columns=columns)
 
@@ -16,7 +16,7 @@ def write_data_to_csv(data, columns, file_name):
 
 
 # Returns data about each instructor
-def get_instructor_data():
+def _get_instructor_data():
     # get json data from Petr Portal
     url = "https://api.peterportal.org/rest/v0/instructors/all"
     response = requests.get(url)
@@ -38,16 +38,16 @@ def get_instructor_data():
     return data
 
 # Uses Pandas to write instructor data to csv
-def write_instructor_data_to_csv():
+def _write_instructor_data_to_csv():
     columns = ["shortened_name", "name", "ucinetid", "department"]
-    data = get_instructor_data()
+    data = _get_instructor_data()
 
-    write_data_to_csv(data, columns, "instructor_data.csv")
+    _write_data_to_csv(data, columns, "instructor_data.csv")
 
 
 
 # Returns data about each course
-def write_course_data_to_csv():
+def _write_course_data_to_csv():
     # get json data from Petr Portal
     url = "https://api.peterportal.org/rest/v0/courses/all"
     response = requests.get(url)
@@ -63,7 +63,7 @@ def write_course_data_to_csv():
 
     columns = [column for column in json[0]]
 
-    write_data_to_csv(data, columns, "course_data.csv")
+    _write_data_to_csv(data, columns, "course_data.csv")
 
 # TODO
 # def 

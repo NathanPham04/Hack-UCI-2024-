@@ -22,8 +22,9 @@
             </thead>
             <tbody>
                 {% for hour in hours %}
+                {% set x = "am" if hour < 11 else "pm" %}
                     <tr>
-                        <td>{{hour % 12 + 1}}</td>
+                        <td>{{hour % 12 + 1}} {{x}}</td>
                         {% for day in days %}
                             <td>{{ day }}</td>
                         {% endfor %}

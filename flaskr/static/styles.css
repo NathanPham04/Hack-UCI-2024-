@@ -27,3 +27,7 @@ th {
     align-items: center;
     max-width: 60%;
 }
+
+.calendar > h2 {
+    font-size: 1em;
+}

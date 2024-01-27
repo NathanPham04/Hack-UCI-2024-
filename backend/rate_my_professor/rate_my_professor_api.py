@@ -31,7 +31,7 @@ with open("rate_my_professor_data.csv", 'a', newline='') as csvfile:
         
         # Write header
     # csv_writer.writerow(['Name', 'Rating', 'Difficulty'])
-    for name in full_names[1300:1399]:#start at 1400
+    for name in full_names[1800:1821]:#start at 1400
 
             professor = ratemyprofessor.get_professor_by_school_and_name(schools, name) 
             if hasattr(professor, 'name') and hasattr(professor, 'rating') and hasattr(professor, 'difficulty'):

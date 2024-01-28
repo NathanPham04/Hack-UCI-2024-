@@ -7,22 +7,26 @@ def home(request):
         # Days of the week
         'days' : ['Mon', 'Tues', 'Wed', 'Thur', 'Fri'],
         # Weeks in the calendar
-        'hours' : ['7 AM', 
-                   '8 AM', 
-                   '9 AM', 
-                   '10 AM', 
-                   '11 AM', 
-                   '12 PM', 
-                   '1 PM',
-                   '2 PM',
-                   '3 PM',
-                   '4 PM',
-                   '5 PM',
-                   '6 PM',
-                   '7 PM',
-                   '8 PM',
-                   '9 PM',
-                   '10 PM']
+        'hours' : ['7am', 
+                   '8am', 
+                   '9am', 
+                   '10am', 
+                   '11am', 
+                   '12am', 
+                   '1pm',
+                   '2pm',
+                   '3pm',
+                   '4pm',
+                   '5pm',
+                   '6pm',
+                   '7pm',
+                   '8pm',
+                   '9pm',
+                   '10pm'],
+        'classes' : ['Political Science', 
+                     'Business Administration', 
+                     'Mechanical Engineering',
+                     'Biomedical Engineering']
     }
     template = loader.get_template('index.html')
     return HttpResponse(template.render(context, request))

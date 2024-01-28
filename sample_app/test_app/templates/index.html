@@ -10,28 +10,81 @@
     <nav class="navBar">
         <h1>Welcome to your new AI driven class planner!</h1>
     </nav>
-    <div class="calendar">
-        <h2>Your Weekly Schedule</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    {% for day in days %}
-                        <th>{{ day }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for hour in hours %}
+    <div class="main-container">
+        <div class="calendar">
+            <h2>Your Weekly Schedule</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ hour }}</td>
+                        <th class="table-time">Time</th>
                         {% for day in days %}
-                            <td>{{ day }}</td>
+                            <th class="days">{{ day }}</th>
                         {% endfor %}
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for hour in hours %}
+                        <tr>
+                            <td>{{ hour }}</td>
+                            {% for day in days %}
+                                {% with name=""|add:day|add:hour %}
+                                <td class={{name}}>
+                                    <div class="first_half"></div>
+                                    <hr/>
+                                    <div class="second-half"></div>
+                                </td>
+                                {% endwith %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="right-side">
+            <div class="dropdown">
+                <button id="dropdown_button" onclick="dropdown_show_hide_majors()" >Select a Major</button>
+                <div class="majors-entire">
+                    {% for class in classes%}
+                    <div class="major-option" onclick="change_button_text_to_major()">{{class}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <script>
+        function dropdown_show_hide_majors() {
+            const majors = document.getElementsByClassName("majors-entire")[0];
+            if (majors.style.display == 'none')
+            {
+                majors.style.display = 'flex';
+            }
+            else
+            {
+                majors.style.display = 'none';
+            }
+        }
+
+        function change_button_text_to_major(major) {
+            console.log(major);
+            const button = document.getElementById("dropdown_button");
+            button.textContent = major;  // Set the text content of the button
+            dropdown_show_hide_majors();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Add event listeners to all major-option divs
+            const majorOptions = document.querySelectorAll(".major-option");
+            majorOptions.forEach(function (majorOption) {
+                majorOption.addEventListener("click", function () {
+                    const majorText = majorOption.textContent;
+                    change_button_text_to_major(majorText);
+                    dropdown_show_hide_majors();
+                });
+            });
+        });
+    </script>
 </body>
 </html>

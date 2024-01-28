@@ -84,13 +84,13 @@ def get_requirements_from_url(url):
     for d in raw_data:
         if d != "":
             # print(d)
-            tmp = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*\–[0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)|([A-Z &]{3,} [0-9]+[A-Z]*)|(or [A-Z]{3,} [0-9]+[A-Z]*)')
+            tmp = re.search(string = d, pattern = '([A-Z4]{3,} [0-9]+[A-Z]*\–[0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)|([A-Z &]{3,} [0-9]+[A-Z]*)|(or [A-Z]{3,} [0-9]+[A-Z]*)')
             if tmp is not None:
                 # print(tmp.group(), d)
                 if tmp.group() == d:
-                    tmp2 = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)')
+                    tmp2 = re.search(string = d, pattern = '([A-Z4]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)')
                     if tmp2 is not None and tmp2.group() == d:
-                        department = re.search(string = d, pattern = '([A-Z]{3,})').group()
+                        department = re.search(string = d, pattern = '([A-Z4]{3,})').group()
                         first_course = re.search(string = d, pattern = '([0-9]+[A-Z]*-)').group().strip("-")
                         second_course = re.search(string = d, pattern = '(- [0-9]+[A-Z]*)').group()[2:]
 
@@ -101,12 +101,12 @@ def get_requirements_from_url(url):
                         refined_data.append(d)
 
                 else:
-                        tmp2 = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*\–[0-9]+[A-Z]*)')
+                        tmp2 = re.search(string = d, pattern = '([A-Z4]{3,} [0-9]+[A-Z]*\–[0-9]+[A-Z]*)')
 
                         if tmp2 is not None and tmp.group() == tmp2.group():                       
                             department = re.search(string = tmp.group(), pattern = '([A-Z]{3,})').group()
-                            first_course = re.search(string = tmp.group(), pattern = '([0-9]+[A-Z]*.*?(?=–))').group().strip("-")
-                            second_course = re.search(string = tmp.group(), pattern = '(–[0-9]+[A-Z]*)').group()[1:]
+                            first_course = re.search(string = tmp.group(), pattern = '([0-9]+[A-Z]*.*?(?=–))').group().strip("-")[:3]
+                            second_course = re.search(string = tmp.group(), pattern = '(–[0-9]+[A-Z]*)').group()[1:][:3]
                             
                             print("department:", department, "   first course:", first_course, "    second course:", second_course)
 
@@ -161,6 +161,6 @@ if __name__ == "__main__":
     # print("done")
     # print(x)
 
-    print(get_requirements_from_url("/schoolofhumanities/departmentofafricanamericanstudies/africanamericanstudies_ba/"))
+    print(get_requirements_from_url("/donaldbrenschoolofinformationandcomputersciences/departmentofcomputerscience/computerscience_bs/"))
 
     

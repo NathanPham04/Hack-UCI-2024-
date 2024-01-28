@@ -2,19 +2,19 @@
 # 
 # Importing UCI major requirements from web scraping
 
-import requests
-import datetime
 import pandas
+
+from web_scraper import automate
 
 # Gets imports major data into a .csv
 def write_major_data_to_csv() -> None:
 
     # dict: {major_name: [classes...]}
-    # major_requirements = get_major_requirements()
-    major_requirements = {
-        "computerscience": ["I&C SCI 45C", "I&C SCI 46"],
-        "biomedicalengineering": ["CHEM1A", "CHEM1AL", "CHEM1B", "CHEM1BL"]
-    }
+    major_requirements = automate()
+    # major_requirements = {
+    #     "computerscience": ["I&C SCI 45C", "I&C SCI 46"],
+    #     "biomedicalengineering": ["CHEM1A", "CHEM1AL", "CHEM1B", "CHEM1BL"]
+    # }
     
     # formats the major requirements for pandas import
     formatted_requirements = {

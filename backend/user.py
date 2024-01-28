@@ -2,8 +2,11 @@
 #
 # Everything about the user
 
+import pandas
+
 import web_scraper.web_scraper
-from petr_portal.courses import get_all_needed_ge_classes
+from petr_portal import courses
+import major_class
 import petr_portal.grades
 from major_class import Course, Major
 
@@ -50,11 +53,9 @@ class User:
             all_classes = self._major.requirements # list of requirements 
 
         # add ge classes
-        all_classes.update(get_all_needed_ge_classes(*self._needed_ges))
+        all_classes.update(courses.get_all_needed_ge_classes(*self._needed_ges))
 
-        # subtract invalid to take
-        all_classes.intersection_update(self._taken_classes)
-        all_classes.intersection_update(self._taken_classes) # satisfied prerequisites
+        self._remove_invalid(all_classes)
 
         return all_classes
         

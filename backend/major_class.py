@@ -18,7 +18,7 @@ class Professor:
 
 
 class Course:
-    def __init__(self, course_code, pre_req_tree : str, ge : list[str], taken : bool, professors : list[Professor], gpa : int) -> None:
+    def __init__(self, course_code, pre_req_tree : str, ge : list[str], taken : bool, professors : list[Professor], gpa : float) -> None:
         self.course_code = course_code
         self.pre_req_tree = pre_req_tree
         self.ge = ge
@@ -45,7 +45,7 @@ class Course:
 
         duplicates = []
         for p in profs:
-            duplicates.append(cls(course.course_code, course.pre_req_tree, course.ge, course.taken, course.gpa, p))
+            duplicates.append(cls(course.course_code, course.pre_req_tree, course.ge, course.taken, [p], course.gpa))
         
         return duplicates
 
@@ -59,7 +59,7 @@ def format_json(string):
     
 
 
-def tokenize(logical_expression : str) -> logic.Gate:
+def tokenize(logical_expression : str, courses_dict : dict) -> logic.Gate:
     print(format_json(logical_expression))
     temp = json.loads(format_json(logical_expression))
 
@@ -71,7 +71,7 @@ def tokenize(logical_expression : str) -> logic.Gate:
                     contents.append(recursive_tokenize(value))
                 else:
                     # pass in reference to courses taken dict
-                    contents.append(value)
+                    contents.append(courses_dict[value])
             
             if key == "AND":
                 return logic.And(contents)

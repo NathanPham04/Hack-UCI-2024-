@@ -19,9 +19,8 @@ from major_class import Course, Major
 class User:
     def __init__(self) -> None:
         self._taken_classes = set()
-        self._major = None
+        self._major = ()
         self._needed_ges = {}  # Ex: Ia, III, Vb, etc.
-        self._needed_classes = {}
 
         # some default values
         self._min_units = 12
@@ -30,9 +29,17 @@ class User:
     # passes in the major in the format that it appears in the url
     # EX: computerscience_bs
     def set_major(self, major: str) -> None:
-        all_urls = x = web_scraper.get_urls("backend/web_scraper/result.html")
-        major_url
-        for url in all_urls:
-            if f"/{major}/" in url:
-                major_url = url
-        self.major = major
+        pass
+        # # check that the major exists
+        # df = pandas.read_csv("data/grade_data.csv")
+
+        # url = 
+        # self.major = major
+
+    # returns all potential classes to work towards graduating
+    def get_potential_classes():
+        # get major classes
+        # add ge classes
+        # subtract invalid to take
+        # return
+        pass

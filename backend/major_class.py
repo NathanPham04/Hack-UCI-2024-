@@ -69,9 +69,9 @@ def tokenize(logical_expression : str) -> logic.Gate:
 
 
 class Major:
-    def __init__(self, name, requirements) -> None:
+    def __init__(self, name) -> None:
         self._name = name
-        self._requirements = requirements
+        # self._requirements
 
     @property
     def name(self):

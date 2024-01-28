@@ -3,6 +3,8 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    border-bottom: solid;
+    margin-bottom: 1em;
 }
 
 table {
@@ -12,8 +14,8 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: .2em solid #ddd;
+    padding: 1em;
     text-align: center;
 }
 
@@ -25,9 +27,54 @@ th {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 60%;
+    width: 60%;
 }
 
 .calendar > h2 {
     font-size: 1em;
+}
+
+hr{
+    margin: 0;
+}
+
+.table-time {
+    width: 4em;
+}
+
+td[class^="Mon"], td[class^="Tues"], td[class^="Wed"], td[class^="Thur"], td[class^="Fri"] {
+    padding: 0;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.right-side {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown > *{
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    padding: 1em;
+    padding-left: 5em;
+    padding-right: 5em;
+}
+
+.majors-entire {
+    display: none;
+    flex-direction: column;
+}
+
+.major-option:hover {
+    background-color: grey;
+    cursor: pointer;
 }

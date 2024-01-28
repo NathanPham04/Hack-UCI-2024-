@@ -98,6 +98,21 @@ def find_prof_from_id(all_classes):
 #     print(f"Instructor for course {course_id_to_find}: {instructor}")
 # else:
 #     print(f"Course ID {course_id_to_find} not found in the CSV.")
+def get_prof_data(find_prof):
+    #iterate through find prof
+    #if it is None then print with none in user data csv
+    # if its not none then try finding
+    # if found then frind all the stats
+    # if not then n/a
+    with open("../data/user_data.csv", 'w') as file:
+        file_writer = csv.writer(file)
+        file_writer.writerow(['course_id', 'instructor', 'instructor_rating', 'instructor_gpa', 'instructor_difficulty'])
+        # course_id,instructor,instructor_rating,instructor_gpa,instructor_difficuty
+        for key, value in find_prof.items():
+            if value == "None":
+                file_writer.writerow([key, value, "None", "None", "None"])
+            else:
+                continue
 
 
 
@@ -110,5 +125,5 @@ if __name__ == "__main__":
     all_classes = user.get_potential_classes()
     print(all_classes)
     find_prof = find_prof_from_id(all_classes)
-    
+    prof_data = get_prof_data(find_prof)
 

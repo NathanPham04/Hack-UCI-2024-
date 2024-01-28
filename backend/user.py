@@ -2,10 +2,8 @@
 #
 # Everything about the user
 
-import pandas
-
 import web_scraper.web_scraper
-import petr_portal.courses
+from petr_portal.courses import get_all_needed_ge_classes
 import petr_portal.grades
 from major_class import Course, Major
 
@@ -19,8 +17,8 @@ from major_class import Course, Major
 class User:
     def __init__(self) -> None:
         self._taken_classes = set()
-        self._major = ()
-        self._needed_ges = {}  # Ex: Ia, III, Vb, etc.
+        self._major = None
+        self._needed_ges = []  # Ex: Ia, III, Vb, etc.
 
         # some default values
         self._min_units = 12
@@ -29,17 +27,29 @@ class User:
     # passes in the major in the format that it appears in the url
     # EX: computerscience_bs
     def set_major(self, major: str) -> None:
-        pass
-        # # check that the major exists
-        # df = pandas.read_csv("data/grade_data.csv")
-
-        # url = 
-        # self.major = major
+        self._major = Major(major)
 
     # returns all potential classes to work towards graduating
-    def get_potential_classes():
+    def get_potential_classes(self):
+        all_classes = set()
+
         # get major classes
+        if self._major != None:
+            all_classes = self._major.requirements # list of requirements 
+
         # add ge classes
+        all_classes.update(get_all_needed_ge_classes(*self._needed_ges))
+
         # subtract invalid to take
-        # return
-        pass
+
+        return all_classes
+
+
+
+
+if __name__ == "__main__":
+    user = User()
+    user.set_major("Business Information Management")
+    user._needed_ges = ["II"]
+
+    print(user.get_potential_classes())

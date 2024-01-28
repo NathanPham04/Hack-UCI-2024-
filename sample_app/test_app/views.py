@@ -1,6 +1,12 @@
 from django.http import HttpResponse
 from django.template import loader
+import pandas as pd
 # Create your views here.
+
+def get_all_majors():
+    data_path = 'data/major_data.csv'
+    data = pd.read_csv(data_path)
+    return list(data['major_name'])
 
 def home(request):
     context = {
@@ -23,10 +29,10 @@ def home(request):
                    '8pm',
                    '9pm',
                    '10pm'],
-        'classes' : ['Political Science', 
-                     'Business Administration', 
-                     'Mechanical Engineering',
-                     'Biomedical Engineering']
+        'classes' : get_all_majors()
     }
     template = loader.get_template('index.html')
     return HttpResponse(template.render(context, request))
+
+if __name__ == '__main__':
+    print(get_all_majors())

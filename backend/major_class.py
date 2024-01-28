@@ -9,7 +9,7 @@ class Professor:
         self.name = name
         self.rating = rating
         self.difficulty = difficulty
-        self.times = dict()
+        self.times = dict()     # key = class, value = times
 
     def set_times(self, **kwargs):
         self.times = kwargs
@@ -19,13 +19,16 @@ class Professor:
 
 
 class Course:
-    def __init__(self, course_code, pre_req_tree : str, ge : list[str], taken : bool, professor : Professor, gpa : int) -> None:
+    def __init__(self, course_code, pre_req_tree : str, ge : list[str], taken : bool, professors : list[Professor], gpa : int) -> None:
         self.course_code = course_code
         self.pre_req_tree = pre_req_tree
         self.ge = ge
         self.taken = taken
         self.gpa = gpa
-        self.professor = professor
+        self.professors = professors
+
+        # sort professors based on a heuristic
+        self.professors = list(sorted(self.professors, key = lambda x : 3 * x.rating - 2 * x.difficulty, reverse=True))
 
     def __repr__(self) -> str:
         return f"Course({self.course_code}, {self.pre_req_tree}, {self.ge}, {self.taken})"
@@ -34,7 +37,20 @@ class Course:
         return self.taken
     
     def get_rating(self):
-        prof_rating = self.professor
+        return self.professors[0].rating + 2 * self.gpa
+    
+    
+    @classmethod
+    def duplicate_course(cls, course : "Course"):
+        profs = course.professors
+
+        duplicates = []
+        for p in profs:
+            duplicates.append(cls(course.course_code, course.pre_req_tree, course.ge, course.taken, course.gpa, p))
+        
+        return duplicates
+
+
     
 
     

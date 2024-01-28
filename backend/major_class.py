@@ -25,8 +25,10 @@ class Course:
 "{""AND"":[""I&C SCI 33"",""I&C SCI 6B""]}"
 "{""OR"":[""MATH 2B"",""MATH 5B"",""MATH 7B"",""AP Calculus BC""]}"
     
-def tokenize(logical_expression : str, operator : str = "AND") -> logic.Gate:
-    if operator == "AND":
+def tokenize(logical_expression : str) -> logic.Gate:
+    first_operator = get_first_operator(logical_expression)
+
+    if first_operator == "AND":
         p = r'({""AND"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""AND"":\[["A-Za-z0-9 &,{}:\[\]]+\]})'
     else:
         p = r'({""OR"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""OR"":\[["A-Za-z0-9 &,{}:\[\]]+\]})'
@@ -34,10 +36,11 @@ def tokenize(logical_expression : str, operator : str = "AND") -> logic.Gate:
     processed_exp = re.search(string = logical_expression, pattern = p)
     if processed_exp is not None:
         processed_exp = processed_exp.group()[9:-1]
-        print("processed (AND):", processed_exp)
+        print(f"processed ({first_operator}):", processed_exp)
 
         raw_courses = re.search(string = processed_exp, pattern = '("".+?(?=\{))|(\[["A-Z& 0-9,]+\])')
         if raw_courses is not None:
+            print("AAAAAAAAAAAAAAAAAAAAAAAA", raw_courses.group())
             tmp = re.findall(string = raw_courses.group(), pattern = '([A-Z&0-9]{3,} [A-Z]* [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)')
         else:
             tmp = re.findall(string = processed_exp, pattern = '([A-Z&0-9]{3,} [A-Z]* [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)')
@@ -45,22 +48,45 @@ def tokenize(logical_expression : str, operator : str = "AND") -> logic.Gate:
 
         courses = []
 
+        print("BBBBBBBBBBBBBBBBBBBB", tmp)
+
         for c in tmp:
             courses += filter(lambda x : x != "", c)
 
         processed_courses = []
 
-        if "AND" in processed_exp or "OR" in processed_exp:
+        if "AND" in raw_courses.group():
+            processed_courses.append(tokenize(processed_exp))
+        elif "OR" in raw_courses.group():
             processed_courses.append(tokenize(processed_exp))
 
+        print("courses", courses, "operator:", first_operator)
         for course in courses:
             temp_pre_req = "REPLACE THIS"
 
             processed_courses.append(Course(course, temp_pre_req, [""], False))
         
-        return logic.And(processed_courses)
+        if first_operator == "AND":
+            return logic.And(processed_courses)
+        elif first_operator == "OR":
+            return logic.Or(processed_courses)
+        else:
+            return None  # this is bad and shouldn't happen
     
+def get_first_operator(string : str) -> str:
+    lowercased_string = string.lower()
 
+    # Find the indices of "and" and "or"
+    and_index = lowercased_string.find("and")
+    or_index = lowercased_string.find("or")
+
+    # Check which one appears first or if neither appears
+    if and_index != -1 and (or_index == -1 or and_index < or_index):
+        return "AND"
+    elif or_index != -1 and (and_index == -1 or or_index < and_index):
+        return "OR"
+    else:
+        return "Neither"
 
     # processed_exp = re.search(string = logical_expression, pattern = r'({""OR"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""OR"":\[["A-Za-z0-9 &,{}:\[\]]+\]})')
     # if processed_exp is not None:
@@ -130,8 +156,10 @@ class Major:
     
 if __name__ == "__main__":
     # tmp = tokenize('"{""AND"":[""MATH 2D"",{""OR"":[""MATH 3A"",""MATH 6G""]}]}"')
-    tmp = tokenize('"{""AND"":[{""OR"":[""CSE 46"",""I&C SCI 46""]},{""OR"":[""MATH 2B"",""AP CALCULUS BC""]},{""OR"":[""STATS 67"",{""AND"":[""STATS 120A"",{""OR"":[""STATS 7"",""AP STATISTICS""]}]}]}]}"')
-    print(tmp)
+    tmp = tokenize('"WRITING 60, OR"":[""MATH 2B"",""AP CALCULUS BC""]},{""OR"":[""STATS 67"",{""AND"":[""STATS 120A"",{""OR"":[""STATS 7"",""AP STATISTICS""]}]}]}]}"')
+    print("expression:", tmp)
+
+    
 
     
     # tokenize("{""OR"":[""MATH 2B"",""MATH 5B"",""MATH 7B"",""AP Calculus BC""]}")

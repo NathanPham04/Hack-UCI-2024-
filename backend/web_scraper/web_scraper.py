@@ -70,7 +70,7 @@ def get_requirements_from_url(url):
 
     driver.find_element(By.ID,'requirementstexttab').click()
 
-    tbody = driver.find_element(By.XPATH, '//*[@id="requirementstextcontainer"]/table/tbody')
+    tbody = driver.find_element(By.CLASS_NAME, 'sc_courselist')
 
     raw_data = []
 
@@ -82,9 +82,10 @@ def get_requirements_from_url(url):
 
     for d in raw_data:
         if d != "":
-            tmp = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)|(or [A-Z]{3,} [0-9]+[A-Z]*)')
+            # print(d)
+            tmp = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*\–[0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)|([A-Z &]{3,} [0-9]+[A-Z]*)|(or [A-Z]{3,} [0-9]+[A-Z]*)')
             if tmp is not None:
-                print(tmp.group())
+                # print(tmp.group(), d)
                 if tmp.group() == d:
                     tmp2 = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*- [0-9]+[A-Z]*)')
                     if tmp2 is not None and tmp2.group() == d:
@@ -97,10 +98,36 @@ def get_requirements_from_url(url):
                     
                     else:
                         refined_data.append(d)
+
+                else:
+                        tmp2 = re.search(string = d, pattern = '([A-Z]{3,} [0-9]+[A-Z]*\–[0-9]+[A-Z]*)')
+
+                        if tmp2 is not None and tmp.group() == tmp2.group():                       
+                            department = re.search(string = tmp.group(), pattern = '([A-Z]{3,})').group()
+                            first_course = re.search(string = tmp.group(), pattern = '([0-9]+[A-Z]*.*?(?=–))').group().strip("-")
+                            second_course = re.search(string = tmp.group(), pattern = '(–[0-9]+[A-Z]*)').group()[1:]
+                            
+                            print("department:", department, "   first course:", first_course, "    second course:", second_course)
     
-    print(refined_data)
+    # print(refined_data)
 
     driver.close()
+
+    return refined_data
+
+def automate():
+    urls = get_urls("backend/web_scraper/result.html")
+
+    majors = dict()
+
+    for url in urls:
+        name = get_major_name(url)
+        majors[name] = get_requirements_from_url(url)
+
+        print(name, "done!")
+        print(majors[name])
+    
+    return majors
 
 
 
@@ -112,6 +139,11 @@ if __name__ == "__main__":
     # for tmp in x:
     #     print(get_major_name(tmp))
 
-    get_requirements_from_url("/thehenrysamuelischoolofengineering/departmentofmechanicalandaerospaceengineering/aerospaceengineering_bs/")
+    # x = automate()
+
+    # print("done")
+    # print(x)
+
+    print(get_requirements_from_url("/schoolofhumanities/departmentofafricanamericanstudies/africanamericanstudies_ba/"))
 
     

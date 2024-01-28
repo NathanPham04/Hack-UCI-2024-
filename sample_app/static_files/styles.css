@@ -1,12 +1,14 @@
+/* Navigation Bar */
 .navBar {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     border-bottom: solid;
     margin-bottom: 1em;
 }
 
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -23,6 +25,7 @@ th {
     background-color: #f2f2f2;
 }
 
+/* Calendar Styles */
 .calendar {
     display: flex;
     flex-direction: column;
@@ -34,7 +37,7 @@ th {
     font-size: 1em;
 }
 
-hr{
+hr {
     margin: 0;
 }
 
@@ -42,15 +45,22 @@ hr{
     width: 4em;
 }
 
-td[class^="Mon"], td[class^="Tues"], td[class^="Wed"], td[class^="Thur"], td[class^="Fri"] {
+/* Day Columns Styles */
+td[class^="Mon"],
+td[class^="Tues"],
+td[class^="Wed"],
+td[class^="Thur"],
+td[class^="Fri"] {
     padding: 0;
 }
 
+/* Main Container */
 .main-container {
     display: flex;
     flex-direction: row;
 }
 
+/* Right Side Styles */
 .right-side {
     width: 40%;
     display: flex;
@@ -58,10 +68,12 @@ td[class^="Mon"], td[class^="Tues"], td[class^="Wed"], td[class^="Thur"], td[cla
     align-items: center;
 }
 
-.dropdown > *{
+/* Dropdown Styles */
+.dropdown > * {
     text-align: center;
 }
 
+/* Button Styles */
 button {
     width: 100%;
     padding: 1em;
@@ -69,6 +81,7 @@ button {
     padding-right: 5em;
 }
 
+/* Majors Styles */
 .majors-entire {
     display: none;
     flex-direction: column;

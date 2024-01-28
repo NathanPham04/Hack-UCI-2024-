@@ -2,10 +2,8 @@
 #
 # Everything about the user
 
-import pandas
-
 import web_scraper.web_scraper
-import petr_portal.courses
+from petr_portal.courses import get_all_needed_ge_classes
 import petr_portal.grades
 from major_class import Course, Major
 
@@ -19,7 +17,7 @@ from major_class import Course, Major
 class User:
     def __init__(self) -> None:
         self._taken_classes = set()
-        self._major = ()
+        self._major = None
         self._needed_ges = {}  # Ex: Ia, III, Vb, etc.
 
         # some default values
@@ -29,17 +27,44 @@ class User:
     # passes in the major in the format that it appears in the url
     # EX: computerscience_bs
     def set_major(self, major: str) -> None:
-        pass
-        # # check that the major exists
-        # df = pandas.read_csv("data/grade_data.csv")
+        self._major = Major(major)
 
-        # url = 
-        # self.major = major
+    # takes a set of ge categories that are still needed
+    def set_needed_ges(self, *args) -> None:
+        ge_categories = {"Ia", "Ib", "II", "III", "IV", "Va", "Vb", "VI", "VII", "VIII"}
+
+        needed_ges = set()
+
+        for arg in args:
+            if arg in ge_categories:
+                self._needed_ges.add(arg)
+    
+
 
     # returns all potential classes to work towards graduating
-    def get_potential_classes():
+    def get_potential_classes(self):
+        all_classes = set()
+
         # get major classes
+        if self._major != None:
+            all_classes = self._major.requirements # list of requirements 
+
         # add ge classes
+        all_classes.update(get_all_needed_ge_classes(*self._needed_ges))
+
         # subtract invalid to take
-        # return
-        pass
+        all_classes.intersection_update(self._taken_classes)
+        all_classes.intersection_update(self._taken_classes) # satisfied prerequisites
+
+        return all_classes
+        
+
+
+
+
+if __name__ == "__main__":
+    user = User()
+    user.set_major("Business Information Management")
+    # user._needed_ges = ["II", "III"]
+
+    print(user.get_potential_classes())

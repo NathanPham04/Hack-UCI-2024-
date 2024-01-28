@@ -1,6 +1,7 @@
 import logic
 import re
 import json
+import pandas
 
 
 class Professor:
@@ -87,7 +88,18 @@ def tokenize(logical_expression : str, courses_dict : dict) -> logic.Gate:
 class Major:
     def __init__(self, name) -> None:
         self._name = name
-        # self._requirements
+
+        # read requirements from major_data.csv
+
+        df = pandas.read_csv("./data/major_data.csv")
+        mask = (df["major_name"] == name)
+
+        if df[mask].empty:
+            self = None
+            raise Exception("INVALID MAJOR")
+            
+        self._requirements = set(eval(list(df.loc[mask, "required_classes"])[0]))
+
 
     @property
     def name(self):

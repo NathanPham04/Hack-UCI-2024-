@@ -45,7 +45,6 @@ def tokenize(logical_expression : str) -> logic.Gate:
                 return logic.Or(contents)
             
 
-
     return recursive_tokenize(temp)
 
 

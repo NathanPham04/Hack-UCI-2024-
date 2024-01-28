@@ -66,6 +66,6 @@ class User:
 if __name__ == "__main__":
     user = User()
     user.set_major("Business Information Management")
-    # user._needed_ges = ["II", "III"]
+    user._needed_ges = ["II", "III"]
 
     print(user.get_potential_classes())

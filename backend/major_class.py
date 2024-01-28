@@ -11,6 +11,8 @@ class Professor:
     def set_times(self, **kwargs):
         self.times = kwargs
 
+    def get_optimality(self) -> int:
+        pass 
 
 
     # Course.professor[0].times[Course.course_code]
@@ -39,39 +41,40 @@ class Course:
 
     
 def tokenize(logical_expression : str, operator : str = "AND") -> logic.Gate:
-    if operator == "AND":
-        p = r'({""AND"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""AND"":\[["A-Za-z0-9 &,{}:\[\]]+\]})'
-    else:
-        p = r'({""OR"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""OR"":\[["A-Za-z0-9 &,{}:\[\]]+\]})'
+    pass
+    # if operator == "AND":
+    #     p = r'({""AND"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""AND"":\[["A-Za-z0-9 &,{}:\[\]]+\]})'
+    # else:
+    #     p = r'({""OR"":\[{["A-Za-z0-9 &,:\[\]]+.+?(?=}")})|({""OR"":\[["A-Za-z0-9 &,{}:\[\]]+\]})'
 
-    processed_exp = re.search(string = logical_expression, pattern = p)
-    if processed_exp is not None:
-        processed_exp = processed_exp.group()[9:-1]
-        print("processed (AND):", processed_exp)
+    # processed_exp = re.search(string = logical_expression, pattern = p)
+    # if processed_exp is not None:
+    #     processed_exp = processed_exp.group()[9:-1]
+    #     print("processed (AND):", processed_exp)
 
-        raw_courses = re.search(string = processed_exp, pattern = '("".+?(?=\{))|(\[["A-Z& 0-9,]+\])')
-        if raw_courses is not None:
-            tmp = re.findall(string = raw_courses.group(), pattern = '([A-Z&0-9]{3,} [A-Z]* [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)')
-        else:
-            tmp = re.findall(string = processed_exp, pattern = '([A-Z&0-9]{3,} [A-Z]* [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)')
+    #     raw_courses = re.search(string = processed_exp, pattern = '("".+?(?=\{))|(\[["A-Z& 0-9,]+\])')
+    #     if raw_courses is not None:
+    #         tmp = re.findall(string = raw_courses.group(), pattern = '([A-Z&0-9]{3,} [A-Z]* [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)')
+    #     else:
+    #         tmp = re.findall(string = processed_exp, pattern = '([A-Z&0-9]{3,} [A-Z]* [0-9]+[A-Z]*)|([A-Z]{3,} [0-9]+[A-Z]*)')
 
 
-        courses = []
+    #     courses = []
 
-        for c in tmp:
-            courses += filter(lambda x : x != "", c)
+    #     for c in tmp:
+    #         courses += filter(lambda x : x != "", c)
 
-        processed_courses = []
+    #     processed_courses = []
 
-        if "AND" in processed_exp or "OR" in processed_exp:
-            processed_courses.append(tokenize(processed_exp))
+    #     if "AND" in processed_exp or "OR" in processed_exp:
+    #         processed_courses.append(tokenize(processed_exp))
 
-        for course in courses:
-            temp_pre_req = "REPLACE THIS"
+    #     for course in courses:
+    #         temp_pre_req = "REPLACE THIS"
 
-            processed_courses.append(Course(course, temp_pre_req, [""], False))
+    #         processed_courses.append(Course(course, temp_pre_req, [""], False))
         
-        return logic.And(processed_courses)
+    #     return logic.And(processed_courses)
     
 
 

@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import re
 import time
+import pandas
 
 
 BASE_URL = "https://catalogue.uci.edu"
@@ -108,8 +109,24 @@ def get_requirements_from_url(url):
                             second_course = re.search(string = tmp.group(), pattern = '(–[0-9]+[A-Z]*)').group()[1:]
                             
                             print("department:", department, "   first course:", first_course, "    second course:", second_course)
-    
-    # print(refined_data)
+
+                            # pandas pull from course_data.csv
+
+                            # creating DataFrame from course_data.csv
+                            df = pandas.read_csv("data/course_data.csv")
+                            mask = (df["department"] == department)
+                            result = df.loc[mask]
+
+                            if int(first_course) < 250:
+
+
+                                for i in range(int(first_course), int(second_course) + 1):
+                                    for course_num in result["number"]:
+                                        if course_num[:len(first_course)] == str(i):
+                                            refined_data.append(department + " " + str(int(first_course) + i))
+
+                            
+
 
     driver.close()
 

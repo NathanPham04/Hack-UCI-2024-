@@ -2,12 +2,29 @@ import logic
 import re
 import json
 
+
+class Professor:
+    def __init__(self, name, rating, difficulty) -> None:
+        self.name = name
+        self.rating = rating
+        self.difficulty = difficulty
+        self.times = dict()
+
+    def set_times(self, **kwargs):
+        self.times = kwargs
+
+    def get_optimality(self) -> int:
+        return self.rating 
+
+
 class Course:
-    def __init__(self, course_code, pre_req_tree : str, ge : list[str], taken : bool) -> None:
+    def __init__(self, course_code, pre_req_tree : str, ge : list[str], taken : bool, professor : Professor, gpa : int) -> None:
         self.course_code = course_code
         self.pre_req_tree = pre_req_tree
         self.ge = ge
         self.taken = taken
+        self.gpa = gpa
+        self.professor = professor
 
     def __repr__(self) -> str:
         return f"Course({self.course_code}, {self.pre_req_tree}, {self.ge}, {self.taken})"
@@ -15,12 +32,13 @@ class Course:
     def __bool__(self) -> bool:
         return self.taken
     
+    def get_rating(self):
+        prof_rating = self.professor
+    
 
     
 def format_json(string):
     string = string.replace('""', '"')
-    # string = string.replace("[", "{")
-    # string = string.replace("]", "}")
     return string
     
 

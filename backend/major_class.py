@@ -91,7 +91,7 @@ class Major:
 
         # read requirements from major_data.csv
 
-        df = pandas.read_csv("./data/major_data.csv")
+        df = pandas.read_csv("../data/major_data.csv")
         mask = (df["major_name"] == name)
 
         if df[mask].empty:

@@ -3,6 +3,7 @@
 # Everything about the user
 
 import pandas
+import csv
 
 import web_scraper.web_scraper
 from petr_portal import courses
@@ -42,7 +43,22 @@ class User:
             if arg in ge_categories:
                 self._needed_ges.add(arg)
     
+    def get_classes_taken(self):
+        classes_taken = set()
+        classes_taken.add("MGMT101")
+        classes_taken.add("STATS110")
+        return classes_taken
 
+    def remove_invalid(self,all_classes):#,classes_taken):
+        classes_taken = self.get_classes_taken()
+        all_classes_copy = all_classes.copy()
+        # for element in all_classes:
+        #     print(element)
+        for element_taken in classes_taken:
+            for element_all in all_classes_copy:
+                if element_taken == element_all:
+                    all_classes.discard(element_taken) #in all_classes
+                
 
     # returns all potential classes to work towards graduating
     def get_potential_classes(self):
@@ -55,11 +71,33 @@ class User:
         # add ge classes
         all_classes.update(courses.get_all_needed_ge_classes(*self._needed_ges))
 
-        self._remove_invalid(all_classes)
+        self.remove_invalid(all_classes)
 
         return all_classes
         
+def find_prof_from_id(all_classes):
+    with open("../data/grade_data.csv", 'r') as file:
+        reader = csv.DictReader(file)
+        all_rows = list(reader)
+        instructors = dict()
+        for element in all_classes:
+            instructors[element] = "None"
+        for element in all_classes:
+            for row in all_rows:
+                if row['course_id'] == element:
+                    instructors[element] = row['instructor']
+                # else:
+                #     instructors[element] = "None"
+        for key, value in instructors.items():
+            print(f"Key: {key}, Value: {value}")
+        return instructors
+     # Return None if the course_id is not found
 
+
+# if instructor is not None:
+#     print(f"Instructor for course {course_id_to_find}: {instructor}")
+# else:
+#     print(f"Course ID {course_id_to_find} not found in the CSV.")
 
 
 
@@ -68,4 +106,9 @@ if __name__ == "__main__":
     user.set_major("Business Information Management")
     # user._needed_ges = ["II", "III"]
 
-    print(user.get_potential_classes())
+    # print(user.get_potential_classes())
+    all_classes = user.get_potential_classes()
+    print(all_classes)
+    find_prof = find_prof_from_id(all_classes)
+    
+

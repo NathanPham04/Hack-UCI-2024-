@@ -18,7 +18,7 @@ class User:
     def __init__(self) -> None:
         self._taken_classes = set()
         self._major = None
-        self._needed_ges = []  # Ex: Ia, III, Vb, etc.
+        self._needed_ges = {}  # Ex: Ia, III, Vb, etc.
 
         # some default values
         self._min_units = 12
@@ -28,6 +28,18 @@ class User:
     # EX: computerscience_bs
     def set_major(self, major: str) -> None:
         self._major = Major(major)
+
+    # takes a set of ge categories that are still needed
+    def set_needed_ges(self, *args) -> None:
+        ge_categories = {"Ia", "Ib", "II", "III", "IV", "Va", "Vb", "VI", "VII", "VIII"}
+
+        needed_ges = set()
+
+        for arg in args:
+            if arg in ge_categories:
+                self._needed_ges.add(arg)
+    
+
 
     # returns all potential classes to work towards graduating
     def get_potential_classes(self):
@@ -41,8 +53,11 @@ class User:
         all_classes.update(get_all_needed_ge_classes(*self._needed_ges))
 
         # subtract invalid to take
+        all_classes.intersection_update(self._taken_classes)
+        all_classes.intersection_update(self._taken_classes) # satisfied prerequisites
 
         return all_classes
+        
 
 
 
@@ -50,6 +65,6 @@ class User:
 if __name__ == "__main__":
     user = User()
     user.set_major("Business Information Management")
-    user._needed_ges = ["II"]
+    # user._needed_ges = ["II", "III"]
 
     print(user.get_potential_classes())

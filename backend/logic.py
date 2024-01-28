@@ -1,23 +1,31 @@
 class Gate:
-    def __init__(self, obj1, obj2) -> None:
-        self.obj1 = obj1
-        self.obj2 = obj2
+    def __init__(self, courses : list) -> None:
+        self.courses = courses
 
-    def verfiy(self) -> bool:
+    def __repr__(self) -> str:
+        pass
+
+    def __bool__(self) -> bool:
         pass
 
 
 class And(Gate):
-    def __init__(self, obj1, obj2) -> None:
-        super().__init__(obj1, obj2)
+    def __init__(self, courses) -> None:
+        super().__init__(courses)
+
+    def __repr__(self) -> str:
+        return f"And({self.courses})"
     
-    def verfiy(self) -> bool:
-        return super().obj1.verify() and super().obj2.verify()
+    def __bool__(self) -> bool:
+        return all(self.courses)
 
 
 class Or(Gate):
-    def __init__(self, obj1, obj2) -> None:
-        super().__init__(obj1, obj2)
+    def __init__(self, courses) -> None:
+        super().__init__(courses)
 
-    def verfiy(self) -> bool:
-        return super().obj1.verify() or super().obj2.verify()
+    def __repr__(self) -> str:
+        return f"Or({self.courses})"
+
+    def __bool__(self) -> bool:
+        return any(self.courses)

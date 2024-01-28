@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import re
-import time
 import pandas
 
 
@@ -150,12 +149,6 @@ def automate():
 
 
 if __name__ == "__main__":
-    # x = (get_urls("backend/web_scraper/result.html"))
-    # print(len(x))
-
-    # for tmp in x:
-    #     print(get_major_name(tmp))
-
     # x = automate()
 
     # print("done")
